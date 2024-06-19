@@ -1,5 +1,5 @@
 // 전역변수 사용을 줄이기 위해 모듈화
-const baseBallGame = (() => {
+const BaseBallGame = (() => {
     const startButton = document.querySelector('.start');
     const submitButton = document.getElementById('submit');
     const submitNumbers = document.querySelectorAll('.submit-number');
@@ -13,7 +13,8 @@ const baseBallGame = (() => {
     let randomNumbers = [];
     let attemptCount = 0;
 
-    const setRandomNumbers = () => {
+    /** 랜덤번호 생성함수 */
+    const generateRandomNumbers = () => {
         let firstNumber, secondNumber, thirdNumber;
 
         firstNumber = Math.floor(Math.random() * 10);
@@ -29,7 +30,8 @@ const baseBallGame = (() => {
         return [firstNumber, secondNumber, thirdNumber];
     };
 
-    const confirmNumber = (array1, array2) => {
+    /** 번호 검증 함수 ( 랜덤번호배열, 사용자입력배열 ) */
+    const confirmNumber = (randomNumberArray, userInputArray) => {
         let strike = 0;
         let ball = 0;
 
@@ -41,13 +43,14 @@ const baseBallGame = (() => {
         //     }
         // }
 
-        strike = array1.filter((v, i) => v === array2[i]).length;
-        ball = array1.filter((v, i) => v !== array2[i] && array2.includes(v)).length;
+        strike = randomNumberArray.filter((v, i) => v === userInputArray[i]).length;
+        ball = randomNumberArray.filter((v, i) => v !== userInputArray[i] && userInputArray.includes(v)).length;
 
         attemptCount++;
         return { strike, ball };
     };
 
+    /** 리스트 업데이트 함수  */
     const updateList = () => {
         listBox.textContent = '';
         userNumberList.forEach((el, index) => {
@@ -61,15 +64,14 @@ const baseBallGame = (() => {
         });
     };
 
+    /** 모달창 변경 함수 */
     const setModal = (text, buttonText) => {
         modalBoxValue.innerHTML = text;
         startButton.textContent = buttonText;
     };
 
-    startButton.addEventListener('click', () => {
-        randomNumbers = setRandomNumbers();
-        console.log(randomNumbers); //개발용 콘솔 정답
-        // 설정값 초기화
+    /** 설정값 초기화 함수 */
+    const reset = () => {
         modalBox.classList.add('invisible');
         attemptCount = 0;
         userNumberList.length = 0;
@@ -77,17 +79,24 @@ const baseBallGame = (() => {
         resultBox.textContent = '';
         listBox.textContent = '';
         submitNumbers.forEach((el) => (el.value = ''));
+    };
+
+    startButton.addEventListener('click', () => {
+        randomNumbers = generateRandomNumbers();
+        console.log(randomNumbers); //개발용 콘솔 정답
+        reset();
     });
 
     submitButton.addEventListener('click', () => {
         const submitNumbersArray = [...submitNumbers].map((el) => +el.value);
-        if (submitNumbersArray.includes(NaN)) {
+        if (submitNumbersArray.some(isNaN)) {
+            alert('숫자를 입력해주세요.');
             return;
         }
         const userInputNumber = submitNumbersArray.join('');
-        userNumberList.push(userInputNumber);
+        userNumberList = [...userNumberList, userInputNumber];
         const { strike, ball } = confirmNumber(randomNumbers, submitNumbersArray);
-        results.push({ strike, ball });
+        results = [...results, { strike, ball }];
         resultBox.innerHTML = ` <p>${attemptCount}번째 시도: ${userInputNumber}</p> 
                                     <div class='zone'><span class='strike b'>S</span><span>${strike}</span></div>
                                     <div class='zone'><span class='ball b'>B</span><span>${ball}</span></div>

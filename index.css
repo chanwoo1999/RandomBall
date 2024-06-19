@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    text-decoration: none;
 }
 
 body {
@@ -14,6 +15,7 @@ body {
     justify-content: space-evenly;
     flex-direction: column;
     height: 100%;
+    /* 이미지 출처 https://kr.freepik.com/free-vector/gradient-baseball-background_66069682.htm#query=%EC%95%BC%EA%B5%AC%EC%9E%A5&position=14&from_view=keyword&track=ais_user&uuid=fbe29171-3966-4fb6-8f26-bf4b31d08f92 */
     background-image: url('/image/background-light.jpg');
     background-size: cover;
     background-repeat: no-repeat;
