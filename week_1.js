@@ -1,3 +1,26 @@
+/*
+1. 0 ~ 9까지의 랜덤 숫자를 생성해야한다
+2. 랜덤으로 만들어진 숫자는 3자리로 제한
+3. 중복된 숫자를 필터링해야한다
+4. 컴퓨터가 만든 3자리 숫자와 사용자가 입력한 숫자를 구분해야한다
+5. 4의 각각 값 들을 통해 strike, ball 판단
+6. 몇번 시도했는지 count해야한다
+
+-- 추가 기능 및 질문사항 (1) *이해완료*
+랜덤으로 숫자를 생성하는 과정에서 for문을 사용하였는데 gpt는 while문을 사용하는 것을 권장한다
+
+-- 추가 기능 및 질문사항 (2)
+if (guess.length !== 3 || new Set(guess).size !== 3 || !/^\d{3}$/.test(guess)) {
+      hintElement.innerText = "서로 다른 3자리 숫자를 입력하세요.";
+      return;
+    }
+이러한 로직? 구현방법? 이 떠오르지 않아 gpt의 도움으로 해결하였는데 이를 해결 및 보완하기 위해 해야 할 연습은?
+
+-- 추가 기능 및 질문사항 (3)
+정답 후 문제 기입란 및 버튼 비활성화
+*/
+
+
 // 1. 0 ~ 9 까지 랜덤 숫자 생성하기 (** 질문 사항 ** gpt는 while문 권장)
 function RandomBall() {
   let RandomNumber = [];
@@ -8,7 +31,7 @@ function RandomBall() {
       i++;
     }
   }
-  return RandomNumber.join(''); // 문자열로 변환
+  return RandomNumber.join(''); // 변환
 }
 
 /* while문 사용
